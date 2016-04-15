@@ -14,6 +14,7 @@
 @synthesize desc;
 @synthesize offerName;
 @synthesize offerDesc;
+@synthesize category;
 
 @synthesize title;
 @synthesize subtitle;

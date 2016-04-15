@@ -128,22 +128,20 @@
     UINavigationController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     MapControll *map = vc.viewControllers[0];
     NSDictionary *offers = [self.net post:@"/offer/all_mobile" :[[NSDictionary alloc] init]];
-    
+//    map.offers = offers;
+    NSMutableArray *temp = [[NSMutableArray alloc] init];
     for (NSDictionary *offer in offers){
-        NSArray *addresses = [offer valueForKey:@"addresses"];
-//        NSLog(@"%@", offer);
-        for (NSDictionary *address in addresses){
-//            NSLog(@"%@", offer);
-            double lat = [[address valueForKey:@"lat"] doubleValue];
-            double lng = [[address valueForKey:@"lng"] doubleValue];
-//            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                  , nil]
-//            NSString *icon = [offer valueForKey:@"icon"];
-//            NSString *title = [offer valueForKey:@"name"];
-//            NSString *text = [offer valueForKey:@"desc"];
-            [map addPinToMap:CLLocationCoordinate2DMake(lat, lng) : offer];
-        }
+        [temp addObject:offer];
+//        NSArray *addresses = [offer valueForKey:@"addresses"];
+//        for (NSDictionary *address in addresses){
+//            [temp addObject:address];
+//            double lat = [[address valueForKey:@"lat"] doubleValue];
+//            double lng = [[address valueForKey:@"lng"] doubleValue];
+//            
+//            [map addPinToMap:CLLocationCoordinate2DMake(lat, lng) : offer];
+//        }
     }
+    [map setOffers:temp];
     
     return;
 //    UINavigationController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];

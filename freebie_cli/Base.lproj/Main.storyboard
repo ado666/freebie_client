@@ -389,7 +389,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDQ-sS-NUV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1116" y="2493"/>
+            <point key="canvasLocation" x="1142" y="2495"/>
         </scene>
         <!--Map Controll-->
         <scene sceneID="fnS-0e-fge">
@@ -406,11 +406,26 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="MapView" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzW-7f-Moh">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                             </mapView>
+                            <containerView opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qpf-Yh-Bvi">
+                                <rect key="frame" x="0.0" y="500" width="600" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="y6b-N7-nkw"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="PiQ-by-7Jd" kind="embed" id="9hk-RG-qv7"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Qpf-Yh-Bvi" firstAttribute="leading" secondItem="V3n-hn-DTZ" secondAttribute="leadingMargin" constant="-20" id="1GC-HE-wdA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qpf-Yh-Bvi" secondAttribute="trailing" constant="-20" id="fLh-vz-ZIs"/>
+                            <constraint firstItem="MHI-hm-sgF" firstAttribute="top" secondItem="Qpf-Yh-Bvi" secondAttribute="bottom" id="kux-FP-wKB"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xR1-Y4-4KJ"/>
                     <connections>
+                        <outlet property="filterContent" destination="Qpf-Yh-Bvi" id="T9i-rx-o5j"/>
                         <outlet property="mapView" destination="bzW-7f-Moh" id="0mA-yA-Fpn"/>
                         <segue destination="vJ0-UL-enl" kind="show" identifier="OfferDetailsSegue" id="XlU-FS-46X"/>
                     </connections>
@@ -579,13 +594,87 @@
             </objects>
             <point key="canvasLocation" x="304" y="1629"/>
         </scene>
+        <!--Filter Controller-->
+        <scene sceneID="WLO-jI-EE3">
+            <objects>
+                <viewController id="PiQ-by-7Jd" customClass="FilterController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3sP-yb-YDP"/>
+                        <viewControllerLayoutGuide type="bottom" id="L07-hW-f5Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IbL-sV-sQf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L7u-Pj-cgv">
+                                <rect key="frame" x="10" y="62" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switched:" destination="PiQ-by-7Jd" eventType="valueChanged" id="qLS-50-pdc"/>
+                                </connections>
+                            </switch>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bar_cat.png" translatesAutoresizingMaskIntoConstraints="NO" id="v4L-wu-2k5">
+                                <rect key="frame" x="68" y="7" width="48" height="48"/>
+                            </imageView>
+                            <switch opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" restorationIdentifier="barSwitch" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1mX-zo-dYD">
+                                <rect key="frame" x="67" y="62" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switched:" destination="PiQ-by-7Jd" eventType="valueChanged" id="5Iu-iN-LeP"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" restorationIdentifier="menSwitch" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPS-QE-Cfy">
+                                <rect key="frame" x="124" y="63" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switched:" destination="PiQ-by-7Jd" eventType="valueChanged" id="20V-I9-Kri"/>
+                                </connections>
+                            </switch>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="men_cat.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Jq-y9-RNJ">
+                                <rect key="frame" x="126" y="11" width="48" height="48"/>
+                            </imageView>
+                            <switch opaque="NO" tag="6" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2yh-qt-PTC">
+                                <rect key="frame" x="181" y="63" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switched:" destination="PiQ-by-7Jd" eventType="valueChanged" id="9ZN-ye-mn6"/>
+                                </connections>
+                            </switch>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="women_cat.png" translatesAutoresizingMaskIntoConstraints="NO" id="lhp-Ce-PCm">
+                                <rect key="frame" x="182" y="8" width="48" height="48"/>
+                            </imageView>
+                            <switch opaque="NO" tag="7" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5iE-lV-GoO">
+                                <rect key="frame" x="238" y="63" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switched:" destination="PiQ-by-7Jd" eventType="valueChanged" id="jy2-0j-uoT"/>
+                                </connections>
+                            </switch>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="kids_cat.png" translatesAutoresizingMaskIntoConstraints="NO" id="OI4-tT-bfY">
+                                <rect key="frame" x="239" y="8" width="48" height="48"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="food_cat.png" translatesAutoresizingMaskIntoConstraints="NO" id="vwS-xg-GQN">
+                                <rect key="frame" x="11" y="7" width="48" height="48"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="BarSwitch" destination="1mX-zo-dYD" id="MhS-Tb-DGC"/>
+                        <outlet property="FoodSwitch" destination="L7u-Pj-cgv" id="4jD-YU-rBF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HNx-qn-dnl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="472" y="2157"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="bar_cat.png" width="48" height="48"/>
         <image name="bar_header.jpg" width="2000" height="400"/>
+        <image name="food_cat.png" width="48" height="48"/>
         <image name="frd.jpg" width="260" height="194"/>
         <image name="images.jpg" width="275" height="183"/>
+        <image name="kids_cat.png" width="48" height="48"/>
         <image name="logo.png" width="1024" height="1024"/>
+        <image name="men_cat.png" width="48" height="48"/>
         <image name="pin.png" width="297" height="234"/>
         <image name="star.jpg" width="204" height="204"/>
+        <image name="women_cat.png" width="24" height="24"/>
     </resources>
 </document>

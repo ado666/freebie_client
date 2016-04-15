@@ -14,6 +14,7 @@
     NSString *desc;
     NSString *offerName;
     NSString *offerDesc;
+    NSInteger category;
     
     NSString *title;
     NSString *subtitle;
@@ -30,5 +31,6 @@
 @property (nonatomic, copy) NSString * subtitle;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) UIImage * ico;
+@property (nonatomic) NSInteger category;
 
 @end
