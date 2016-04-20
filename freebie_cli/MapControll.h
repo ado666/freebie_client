@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSMutableArray *offers;
 
 - (void) addPinToMap:(CLLocationCoordinate2D)coords : (NSDictionary*)data;
-- (void) updatePins;
+- (void) updatePins :(id) sender;
 //- (void) addPinToMap:(CLLocationCoordinate2D)coords : (NSString*)name : (NSString*)title: (NSString*) icon;
 //- (UIView*) detailViewForAnnotation;
 @end

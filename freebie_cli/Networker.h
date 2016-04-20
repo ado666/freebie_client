@@ -16,6 +16,5 @@
 - (NSDictionary*) get :(NSString*)url :(NSDictionary*)extra;
 - (NSDictionary*) post :(NSString*)url :(NSDictionary*)extra;
 - (UIImage*) getImage :(NSString*)url :(NSString*)alt;
-//- (NSString*) getImageFromURL :(NSString*)url;
 
 @end

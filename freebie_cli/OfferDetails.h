@@ -24,6 +24,7 @@
 
 @property (nonatomic,strong) MKAnnotationView *annoView;
 @property (nonatomic,strong)  NSDate* endTime;
+@property (weak, nonatomic) IBOutlet UIButton *star;
 
 - (void) setAnnotation: (MKAnnotationView*) view;
 - (void) changeAnno: (NSNotification*) notif;

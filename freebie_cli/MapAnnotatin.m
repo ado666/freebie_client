@@ -12,6 +12,7 @@
 
 @synthesize addresses;
 @synthesize desc;
+@synthesize offerId;
 @synthesize offerName;
 @synthesize offerDesc;
 @synthesize category;

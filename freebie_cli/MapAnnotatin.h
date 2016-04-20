@@ -12,6 +12,7 @@
 @interface MapAnnotation : NSObject <MKAnnotation>{
     NSArray *addresses;
     NSString *desc;
+    NSInteger offerId;
     NSString *offerName;
     NSString *offerDesc;
     NSInteger category;
@@ -24,6 +25,7 @@
 
 @property (nonatomic, copy) NSArray * addresses;
 @property (nonatomic, copy) NSString * desc;
+@property (nonatomic) NSInteger offerId;
 @property (nonatomic, copy) NSString * offerName;
 @property (nonatomic, copy) NSString * offerDesc;
 

@@ -23,22 +23,20 @@
     self.mapView.delegate = self;
     [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFilter) name:@"filterUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFilter:) name:@"filterUpdate" object:nil];
 
 }
 
 @synthesize offers;
 - (void) setOffers:(NSMutableArray *)val{
     offers = val;
-    [self updatePins];
+    [self updatePins : nil];
 }
 - (NSMutableArray*) offers {
     return offers;
 }
 
-- (void) updatePins {
-    [_mapView removeAnnotations:_mapView.annotations];
-    
+- (void) updatePins : (id) sender {
     UIView *view = self.filterContent.subviews[0];
     BOOL food = [[view viewWithTag:1] isOn];
     BOOL bar = [[view viewWithTag:2] isOn];
@@ -46,11 +44,66 @@
     BOOL women = [[view viewWithTag:6] isOn];
     BOOL kids = [[view viewWithTag:7] isOn];
     
+    NSArray *current = _mapView.annotations;
+    
+    NSMutableArray *toDelete = [[NSMutableArray alloc] init];
+    for (NSDictionary *ann in current){
+        if ([ann class] == [MKUserLocation class]){
+            continue;
+        }
+        
+        if ([[ann valueForKey:@"category"] integerValue] == 1){
+            if (!food){
+                [toDelete addObject:ann];
+            }
+        }
+        if ([[ann valueForKey:@"category"] integerValue] == 2){
+            if (!bar){
+                [toDelete addObject:ann];
+            }
+        }
+        if ([[ann valueForKey:@"category"] integerValue] == 5){
+            if (!men){
+                [toDelete addObject:ann];
+            }
+        }
+        if ([[ann valueForKey:@"category"] integerValue] == 6){
+            if (!women){
+                [toDelete addObject:ann];
+            }
+        }
+        if ([[ann valueForKey:@"category"] integerValue] == 7){
+            if (!kids){
+                [toDelete addObject:ann];
+            }
+        }
+    }
+    
+    [self.mapView removeAnnotations:toDelete];
+    
+    
+    NSArray *newData = [[NSArray alloc] init];
+    
+    BOOL already = false;
     for (NSDictionary *offer in self.offers){
         NSArray *addresses = [offer valueForKey:@"addresses"];
         for (NSDictionary *address in addresses){
             double lat = [[address valueForKey:@"lat"] doubleValue];
             double lng = [[address valueForKey:@"lng"] doubleValue];
+            
+            already = false;
+            for (NSDictionary *ann in _mapView.annotations){
+                if ([ann class] == [MKUserLocation class]){
+//                    already = true;
+                    continue;
+                }
+                if ([[offer valueForKey:@"id"] integerValue] == [[ann valueForKey:@"offerId"] integerValue]){
+                    already = true;
+                }
+            }
+            if (already){
+                continue;
+            }
 
             if ([[[offer valueForKey:@"category"] valueForKey:@"id"] integerValue] == 1){
                 if (food){
@@ -82,9 +135,8 @@
     }
 }
      
-- (void) updateFilter {
-    
-    [self updatePins];
+- (void) updateFilter :(id) sender {
+    [self updatePins :sender];
 //    [_mapView removeAnnotations:_mapView.annotations];
     
 //    for (id<MKAnnotation> annotation in _mapView.annotations){
@@ -125,6 +177,7 @@
     toAdd.coordinate = coords;
     toAdd.addresses = [data valueForKey:@"addresses"];
     toAdd.title = title;
+    toAdd.offerId = [[data valueForKey:@"id"] integerValue];
     toAdd.offerName = [data valueForKey:@"name"];
     toAdd.offerDesc = [data valueForKey:@"desc"];
     toAdd.category = [[[data valueForKey:@"category"] valueForKey:@"id"] integerValue];

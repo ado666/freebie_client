@@ -8,6 +8,8 @@
 
 #import "OfferDetails.h"
 #import <MapKit/MapKit.h>
+#import "AppDelegate.h"
+#import "Networker.h"
 
 @implementation OfferDetails
 
@@ -20,6 +22,14 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAnno" object:self];
     
+}
+- (IBAction)toFavorite:(id)sender {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    Networker *net = appDelegate.net;
+    
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[[self.annoView valueForKey:@"offerId"] stringValue], @"offer_id",  nil];
+    
+    [net post:@"/offer/toFavorites" : d];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

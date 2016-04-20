@@ -85,6 +85,9 @@
     NSString *extraString = [self dictToString: extra];
     extraString = [extraString stringByAppendingString:@"push_id="];
     extraString = [extraString stringByAppendingString:dtoken];
+    extraString = [extraString stringByAppendingString:@"&"];
+    extraString = [extraString stringByAppendingString:@"uuid="];
+    extraString = [extraString stringByAppendingString:[AppDelegate identifierForVendor]];
 
     NSError *error = nil; NSURLResponse *response = nil;
     
