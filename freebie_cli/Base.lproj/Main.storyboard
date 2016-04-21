@@ -640,6 +640,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="bHC-oC-lf7" kind="show" id="NiT-xw-CXt"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qdF-Cd-psT">
                                         <rect key="frame" x="0.0" y="108" width="600" height="44"/>
@@ -669,6 +672,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cUG-cA-Lhm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1877" y="1629"/>
+        </scene>
+        <!--Favorites Controller-->
+        <scene sceneID="RNJ-nr-5J5">
+            <objects>
+                <tableViewController id="bHC-oC-lf7" customClass="FavoritesController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Jel-xh-EBY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="EHH-M9-HOS" customClass="FavoriteCell">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EHH-M9-HOS" id="11i-ip-dkr">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxO-Qq-dcU">
+                                            <rect key="frame" x="67" y="11" width="300" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="4aJ-Lw-ZCq"/>
+                                                <constraint firstAttribute="width" constant="300" id="S22-a5-St7"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cvM-5l-cCu">
+                                            <rect key="frame" x="9" y="0.0" width="45" height="36"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPt-9z-e11">
+                                            <rect key="frame" x="466" y="7" width="46" height="30"/>
+                                            <state key="normal" title="Delete">
+                                                <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="mxO-Qq-dcU" firstAttribute="leading" secondItem="11i-ip-dkr" secondAttribute="leadingMargin" constant="59" id="9MX-jS-66X"/>
+                                        <constraint firstItem="mxO-Qq-dcU" firstAttribute="top" secondItem="11i-ip-dkr" secondAttribute="topMargin" constant="3" id="jLv-M1-MOS"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="icon" destination="cvM-5l-cCu" id="QYh-Dv-y1P"/>
+                                    <outlet property="name" destination="mxO-Qq-dcU" id="hxF-hx-ISz"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="bHC-oC-lf7" id="txg-nF-Vx2"/>
+                            <outlet property="delegate" destination="bHC-oC-lf7" id="Qmg-kg-HLa"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PiE-c8-2Y0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2589" y="1183"/>
         </scene>
         <!--Filter Controller-->
         <scene sceneID="WLO-jI-EE3">

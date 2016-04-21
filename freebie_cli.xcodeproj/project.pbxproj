@@ -36,6 +36,8 @@
 		6A9E7D081ACDDA9100695F85 /* AppIcon76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E7D071ACDDA9100695F85 /* AppIcon76x76.png */; };
 		6A9E7D0A1ACDDA9B00695F85 /* AppIcon152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E7D091ACDDA9B00695F85 /* AppIcon152x152.png */; };
 		6AA9F65C1BA37FF40077567A /* OfferInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9F65B1BA37FF40077567A /* OfferInfoViewController.m */; };
+		6AD120471CC8E44E002BADC6 /* FavoritesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD120461CC8E44E002BADC6 /* FavoritesController.m */; };
+		6AD1204A1CC8F7E3002BADC6 /* FavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD120491CC8F7E3002BADC6 /* FavoriteCell.m */; };
 		6AD41A721CBBA73700E4DC5A /* food_cat.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AD41A711CBBA73700E4DC5A /* food_cat.png */; };
 		6AD41A741CBCF1AF00E4DC5A /* bar_cat.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AD41A731CBCF1AF00E4DC5A /* bar_cat.png */; };
 		6AD41A771CBCF2CF00E4DC5A /* FilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD41A761CBCF2CF00E4DC5A /* FilterController.m */; };
@@ -101,6 +103,10 @@
 		6A9E7D091ACDDA9B00695F85 /* AppIcon152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon152x152.png; sourceTree = "<group>"; };
 		6AA9F65A1BA37FF40077567A /* OfferInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferInfoViewController.h; sourceTree = "<group>"; };
 		6AA9F65B1BA37FF40077567A /* OfferInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferInfoViewController.m; sourceTree = "<group>"; };
+		6AD120451CC8E44E002BADC6 /* FavoritesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesController.h; sourceTree = "<group>"; };
+		6AD120461CC8E44E002BADC6 /* FavoritesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesController.m; sourceTree = "<group>"; };
+		6AD120481CC8F7E3002BADC6 /* FavoriteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteCell.h; sourceTree = "<group>"; };
+		6AD120491CC8F7E3002BADC6 /* FavoriteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteCell.m; sourceTree = "<group>"; };
 		6AD41A711CBBA73700E4DC5A /* food_cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food_cat.png; sourceTree = "<group>"; };
 		6AD41A731CBCF1AF00E4DC5A /* bar_cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_cat.png; sourceTree = "<group>"; };
 		6AD41A751CBCF2CF00E4DC5A /* FilterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterController.h; sourceTree = "<group>"; };
@@ -174,6 +180,8 @@
 				6AE89F761AC86EF8002E1A5E /* ViewController.h */,
 				6AE89F771AC86EF8002E1A5E /* ViewController.m */,
 				6AE89F791AC86EF8002E1A5E /* Main.storyboard */,
+				6AD120481CC8F7E3002BADC6 /* FavoriteCell.h */,
+				6AD120491CC8F7E3002BADC6 /* FavoriteCell.m */,
 				6AA9F65A1BA37FF40077567A /* OfferInfoViewController.h */,
 				6AA9F65B1BA37FF40077567A /* OfferInfoViewController.m */,
 				6AE89F7C1AC86EF8002E1A5E /* Images.xcassets */,
@@ -195,6 +203,8 @@
 				6AE0A0AF1CABD9A900B2C7D9 /* OfferDetails.m */,
 				6AD41A751CBCF2CF00E4DC5A /* FilterController.h */,
 				6AD41A761CBCF2CF00E4DC5A /* FilterController.m */,
+				6AD120451CC8E44E002BADC6 /* FavoritesController.h */,
+				6AD120461CC8E44E002BADC6 /* FavoritesController.m */,
 			);
 			path = freebie_cli;
 			sourceTree = "<group>";
@@ -393,7 +403,9 @@
 				6AE0A0B01CABD9A900B2C7D9 /* OfferDetails.m in Sources */,
 				6AA9F65C1BA37FF40077567A /* OfferInfoViewController.m in Sources */,
 				6A9C68D01B724324007B5073 /* NetContoll.m in Sources */,
+				6AD1204A1CC8F7E3002BADC6 /* FavoriteCell.m in Sources */,
 				6AE89F751AC86EF8002E1A5E /* AppDelegate.m in Sources */,
+				6AD120471CC8E44E002BADC6 /* FavoritesController.m in Sources */,
 				6A2814241B946BD700E6EE34 /* GeoManager.m in Sources */,
 				6AE89F721AC86EF8002E1A5E /* main.m in Sources */,
 				6AD41A771CBCF2CF00E4DC5A /* FilterController.m in Sources */,
