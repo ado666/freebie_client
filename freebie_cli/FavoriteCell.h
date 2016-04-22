@@ -12,5 +12,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet UIButton *toDelete;
+
+@property NSInteger compId;
 
 @end

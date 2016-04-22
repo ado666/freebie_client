@@ -23,6 +23,8 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     Networker *net = appDelegate.net;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavorites) name:@"favoritesUpdated" object:nil];
+    
     NSDictionary *data = [net post:@"/user/favorites" : [[NSDictionary alloc] init]];
     
     self.favorites = [data valueForKey:@"favorites"];
@@ -36,6 +38,17 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void) updateFavorites {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    Networker *net = appDelegate.net;
+    
+    NSDictionary *data = [net post:@"/user/favorites" : [[NSDictionary alloc] init]];
+    
+    self.favorites = [data valueForKey:@"favorites"];
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,7 +75,7 @@
     
     cell.name.text = [comp valueForKey:@"name"];
     
-    NSLog(@"asddds %@", [[self.favorites objectAtIndex:indexPath.row] valueForKey:@"company"]);
+    cell.compId = [[comp valueForKey:@"id"] integerValue];
     
     return cell;
 }

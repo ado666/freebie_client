@@ -554,7 +554,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uds-3f-Ypr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="674" y="979"/>
+            <point key="canvasLocation" x="620" y="589"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="1rq-KI-eGo">
@@ -594,7 +594,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fcg-9A-ydG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1210" y="979"/>
+            <point key="canvasLocation" x="1380" y="563"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="X7h-Kb-4l2">
@@ -702,21 +702,31 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cvM-5l-cCu">
                                             <rect key="frame" x="9" y="0.0" width="45" height="36"/>
                                         </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPt-9z-e11">
-                                            <rect key="frame" x="466" y="7" width="46" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPt-9z-e11">
+                                            <rect key="frame" x="538" y="7" width="46" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="6Ce-67-Ou5"/>
+                                                <constraint firstAttribute="width" constant="46" id="whP-Co-YcO"/>
+                                            </constraints>
                                             <state key="normal" title="Delete">
                                                 <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
+                                            <connections>
+                                                <action selector="delete:" destination="EHH-M9-HOS" eventType="touchUpInside" id="4Q4-qv-8rX"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="dPt-9z-e11" secondAttribute="trailing" constant="8" id="8WF-YT-tTf"/>
                                         <constraint firstItem="mxO-Qq-dcU" firstAttribute="leading" secondItem="11i-ip-dkr" secondAttribute="leadingMargin" constant="59" id="9MX-jS-66X"/>
                                         <constraint firstItem="mxO-Qq-dcU" firstAttribute="top" secondItem="11i-ip-dkr" secondAttribute="topMargin" constant="3" id="jLv-M1-MOS"/>
+                                        <constraint firstItem="dPt-9z-e11" firstAttribute="top" secondItem="11i-ip-dkr" secondAttribute="topMargin" constant="-1" id="qbB-FM-r1J"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="icon" destination="cvM-5l-cCu" id="QYh-Dv-y1P"/>
                                     <outlet property="name" destination="mxO-Qq-dcU" id="hxF-hx-ISz"/>
+                                    <outlet property="toDelete" destination="dPt-9z-e11" id="gEm-dx-Q0L"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
