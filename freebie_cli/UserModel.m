@@ -23,6 +23,14 @@ static UserModel *instance = nil;
     self.location = userCords;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"userLocationChanged" object:nil];
+    
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSString stringWithFormat:@"%f", userCords.coordinate.latitude], @"lat",
+                          [NSString stringWithFormat:@"%f", userCords.coordinate.longitude], @"lng", nil];
+    
+    Networker *net = [Networker getInstance];
+    
+    [net post:@"/user/update_location" :data];
 }
 
 - (void) fetch {

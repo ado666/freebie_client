@@ -54,6 +54,7 @@
 }
 
 - (void) userLocationChanged {
+    
     if (self.inited){
         return;
     }else{
