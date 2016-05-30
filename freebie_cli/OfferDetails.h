@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *offerDesc;
 @property (weak, nonatomic) IBOutlet UILabel *offerLeft;
 
+@property (strong, nonatomic) NSDictionary *offer;
+
 @property (nonatomic, weak) NSTimer* timer;
 
 @property (nonatomic,strong) MKAnnotationView *annoView;
@@ -27,7 +29,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *star;
 
 - (void) setAnnotation: (MKAnnotationView*) view;
+- (void) setNewOffer: (NSDictionary*) offer;
 - (void) changeAnno: (NSNotification*) notif;
+- (void) changeOffer: (NSNotification*) notif;
 - (void) timerHandler: (NSDictionary*) userInfo;
 
 - (UIImage*) resizeImageTo :(UIImage*)img :(CGSize)size;

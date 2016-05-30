@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "OfferDetails.h"
 #import <MapKit/MapKit.h>
+#import "SWRevealViewController.h"
 
 @implementation MapControll
 
@@ -24,7 +25,22 @@
     [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFilter:) name:@"filterUpdate" object:nil];
-
+    
+    SWRevealViewController *revealController = [self revealViewController];
+    
+    
+    [revealController panGestureRecognizer];
+    [revealController tapGestureRecognizer];
+    
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
+                                                                         style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
+    
+    self.navigationItem.leftBarButtonItem = revealButtonItem;
+    
+    UIBarButtonItem *rightRevealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter.png"]
+                                                                              style:UIBarButtonItemStylePlain target:revealController action:@selector(rightRevealToggle:)];
+    
+    self.navigationItem.rightBarButtonItem = rightRevealButtonItem;
 }
 
 @synthesize offers;
@@ -164,8 +180,7 @@
 
 - (void)addPinToMap: (CLLocationCoordinate2D) coords :(NSDictionary*) data
 {
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    Networker *net = appDelegate.net;
+    Networker *net = [Networker getInstance];
     
 //    NSString *title = [data valueForKey:@"title"];
     NSString *title = [[[data valueForKey:@"addresses"] objectAtIndex:0] valueForKey:@"name"];

@@ -67,18 +67,18 @@
 
     
     // request
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://91.225.238.186/user/update_location"]];
-    request.HTTPMethod = @"POST";
-    NSString *stringData = [NSString stringWithFormat:@"user=%@;lng=%.8f;lat=%.8f;user=%@", [AppDelegate identifierForVendor], lng, lat, appDelegate.user_id];
-    NSData *requestBodyData = [stringData dataUsingEncoding:NSUTF8StringEncoding];
-    request.HTTPBody = requestBodyData;
-    
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request
-                                          returningResponse:&response
-                                                      error:&error];
+//    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://91.225.238.186/user/update_location"]];
+//    request.HTTPMethod = @"POST";
+//    NSString *stringData = [NSString stringWithFormat:@"user=%@;lng=%.8f;lat=%.8f;user=%@", [AppDelegate identifierForVendor], lng, lat, appDelegate.user_id];
+//    NSData *requestBodyData = [stringData dataUsingEncoding:NSUTF8StringEncoding];
+//    request.HTTPBody = requestBodyData;
+//    
+//    NSURLResponse *response = nil;
+//    NSError *error = nil;
+//    NSData *data = [NSURLConnection sendSynchronousRequest:request
+//                                          returningResponse:&response
+//                                                      error:&error];
     
 //    // Create the request.
 //    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://google.com"]];
@@ -97,14 +97,14 @@
 //    // Create url connection and fire request
 //    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-    if (error == nil)
-    {
+//    if (error == nil)
+//    {
 //        self.all_offers = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         //        all_offers = dictionary;
         //        for (NSDictionary *key in dictionary){
         //            NSLog(@"%@", key);
         //        }
-    }
+//    }
 }
 
 @end

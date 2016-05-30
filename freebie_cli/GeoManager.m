@@ -23,18 +23,18 @@ CLPlacemark *placemark;
     self = [super init]; //вызываем конструктор базового класса для
     
     // network
-    self.netControll = [[NetContoll alloc] init];
+//    self.netControll = [[NetContoll alloc] init];
     
     
     // locations
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    [self.locationManager requestAlwaysAuthorization];
-    
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate testMethod];
+//    self.locationManager = [[CLLocationManager alloc] init];
+//    self.locationManager.delegate = self;
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    
+//    [self.locationManager requestAlwaysAuthorization];
+//    
+//    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    [appDelegate testMethod];
     
 
     

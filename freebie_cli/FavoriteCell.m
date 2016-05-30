@@ -26,11 +26,10 @@
     // Configure the view for the selected state
 }
 - (IBAction)delete:(id)sender {
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    Networker *net = appDelegate.net;
-    
+    Networker *net = [Networker getInstance];
+//    NSLog(@"%ld ddd", (long)self.compId);
     NSString *aaa = [[NSNumber numberWithInteger:(NSInteger)self.compId] stringValue];
-//    NSLog(@"asd %@", aaa);
+    NSLog(@"asd %@", aaa);
     [net post:@"/user/favorite_delete" : [NSDictionary dictionaryWithObjectsAndKeys:aaa, @"company_id", nil]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"favoritesUpdated" object:nil];

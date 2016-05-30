@@ -1,20 +1,22 @@
 //
 //  Networker.h
-//  skirmish
+//  freebie
 //
-//  Created by Boris Kuznetsov on 30/09/15.
-//  Copyright © 2015 Boris Kuznetsov. All rights reserved.
+//  Created by Boris Kuznetsov on 19/04/16.
+//  Copyright © 2016 Apportable. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface Networker : NSObject
 
-- (NSString*) dictToString: (NSDictionary*) data;
++ (Networker *) getInstance;
 
-- (NSDictionary*) get :(NSString*)url :(NSDictionary*)extra;
-- (NSDictionary*) post :(NSString*)url :(NSDictionary*)extra;
-- (UIImage*) getImage :(NSString*)url :(NSString*)alt;
+- (NSDictionary *) post: (NSString*)url :(NSDictionary*) data;
+- (NSDictionary *) get: (NSString*)url :(NSDictionary*) data;
+- (UIImage *) getImage: (NSString*)url :(NSString*) alt;
+
+@property (nonatomic, strong) NSString *url;
 
 @end

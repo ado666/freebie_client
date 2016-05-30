@@ -1,52 +1,35 @@
 //
-//  FavoritesController.m
+//  RightMenuController.m
 //  freebie_cli
 //
-//  Created by Boris Kuznetsov on 21/04/16.
+//  Created by Boris Kuznetsov on 19/05/16.
 //  Copyright © 2016 Boris Kuznetsov. All rights reserved.
 //
 
-#import "FavoritesController.h"
-#import "AppDelegate.h"
+#import "RightMenuController.h"
+#import "UserModel.h"
+#import "CategoryViewCell.h"
 #import "Networker.h"
-#import "FavoriteCell.h"
 
-@interface FavoritesController ()
+@interface RightMenuController ()
 
 @end
 
-@implementation FavoritesController
+@implementation RightMenuController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    Networker *net = [Networker getInstance];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavorites) name:@"favoritesUpdated" object:nil];
-    
-    NSDictionary *data = [net post:@"/user/favorites" : [[NSDictionary alloc] init]];
-    
-    self.favorites = [data valueForKey:@"favorites"];
-    
-//    for (NSDictionary *f in favorites){
-//        UITableViewCell *cell = [[UITableViewCell alloc] init];
-//        [self inse]
-//    }
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(categoriesChanged) name:@"categoriesChanged" object:nil];
+    self.tableData = [NSArray arrayWithArray:[UserModel getInstance].categories];
 }
 
-- (void) updateFavorites {
-    Networker *net = [Networker getInstance];
-    
-    NSDictionary *data = [net post:@"/user/favorites" : [[NSDictionary alloc] init]];
-    
-    self.favorites = [data valueForKey:@"favorites"];
-    
-    [self.tableView reloadData];
+- (void) categoriesChanged {
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,25 +40,37 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+#warning Incomplete implementation, return the number of sections
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.favorites count];
+#warning Incomplete implementation, return the number of rows
+    return [self.tableData count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier =@"Cell";
-    FavoriteCell *cell = (FavoriteCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UserModel *user = [UserModel getInstance];
     
-    NSDictionary *comp = [[self.favorites objectAtIndex:indexPath.row] valueForKey:@"company"];
+    CategoryViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"base" forIndexPath:indexPath];
+    NSDictionary *cellData = [self.tableData objectAtIndex:(indexPath.row)];
     
-    cell.name.text = [comp valueForKey:@"name"];
+    cell.categoryName.text = [cellData valueForKey:@"name"];
     
-//    NSLog(@"%@ asd", [comp valueForKey:@"id"]);
+    [cell.categoryImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"category_%@.png", [cellData valueForKey:@"id"]]]];
+    cell.categoryId = [cellData valueForKey:@"id"];
     
-    cell.compId = [[comp valueForKey:@"id"] integerValue];
+//    NSDictionary *a = [[NSDictionary alloc] init];
+//    [a valueForKey:@"asd"];
+//    NSLog(@"asd %@ %@", [[cellData valueForKey:@"id"] stringValue], [[user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]] valueForKey:@"value"]);
+    if ([user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]]){
+        if ([[user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]] integerValue] == 1){
+            [cell.categorySwitch setOn:YES];
+        }else{
+            [cell.categorySwitch setOn:NO];
+        }
+    }
     
     return cell;
 }

@@ -13,18 +13,23 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic,strong) GeoManager *geoManager;
-@property (nonatomic,strong) NetContoll *netControll;
-@property (nonatomic, strong) NSData *token;
-@property (nonatomic, strong) NSData *device_token;
-@property (nonatomic) NSString *user_id;
+//@property (nonatomic,strong) GeoManager *geoManager;
+//@property (nonatomic,strong) NetContoll *netControll;
+//@property (nonatomic, strong) NSData *token;
+//@property (nonatomic, strong) NSData *device_token;
+//@property (nonatomic) NSString *user_id;
 @property (nonatomic) CLLocationManager *locationManager;
-@property (nonatomic) Networker *net;
+//@property (nonatomic) Networker *net;
 
-+ (NSString*)identifierForVendor;
-- (void) testMethod;
 
++ (NSString*) identifierForVendor;
++ (NSData*) tokenForPush;
+//- (void) testMethod;
+
+//@property (nonatomic, strong) NSData *token;
+//@property (nonatomic, strong) NSString *uuid;
 
 @end
 

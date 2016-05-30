@@ -13,12 +13,19 @@
 #import "Networker.h"
 #import "MapControll.h"
 
+#import "OfferFactory.h"
+#import "UserModel.h"
+
+#import "LocationManager.h"
+
 
 
 @interface AppDelegate ()
 @end
 
 @implementation AppDelegate
+
+static NSData *token;
 
 + (NSString *) identifierForVendor
 {
@@ -28,16 +35,19 @@
     return @"";
 }
 
-- (void) testMethod {
-//    NSLog(@"app delegate");
++ (NSData *) tokenForPush {
+//    NSLog(@"asd %@", token);
+    if (token){
+        return token;//[[NSString alloc] initWithData:token encoding:NSUTF8StringEncoding];
+    }
+    return @"";
 }
 
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken  {
-    self.device_token = deviceToken;
-    self.token = deviceToken;
+    token = deviceToken;
     [self hello];
-//    [self.geoManager start];
-    NSLog(@"My token is: %@", self.token);
+//    NSLog(@"My token is: %@", self.token);
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -49,7 +59,6 @@
     return YES;
 }
 
-
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     //register to receive notifications
@@ -57,11 +66,10 @@
 //    NSLog(@"didRegisterUser");
 }
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
-    
-    };
+//    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
+//    
+//    };
     [[UIApplication sharedApplication] registerUserNotificationSettings:
                                             [UIUserNotificationSettings
                                                 settingsForTypes:(UIUserNotificationTypeSound |
@@ -69,13 +77,21 @@
                                                                   UIUserNotificationTypeBadge)
                                              categories:nil]];
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [[LocationManager getInstance] start];
+//    [lm start];
+//    self.uuid = [AppDelegate identifierForVendor]
     
-    [self.locationManager requestAlwaysAuthorization];
     
-    self.net = [[Networker alloc] init];
+//    CLLocationManager *cclm = [[CLLocationManager alloc] init];
+    
+    
+//    self.locationManager = [[CLLocationManager alloc] init];
+//    self.locationManager.delegate = self;
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    
+//    [self.locationManager requestAlwaysAuthorization];
+//    
+//    self.net = [[Networker alloc] init];
 
     
 //    NSLog(@"%@", launchOptions);
@@ -92,7 +108,7 @@
 //    [self.netControll populateAddresses];
 //    [self.netControll populateOffers];
     
-    if (launchOptions == nil){
+//    if (launchOptions == nil){
 //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main.storyboard" bundle:nil];
 //        ViewController *mainViewController = (ViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
 //        OfferInfoViewController *offerViewController = (OfferInfoViewController *)[storyboard instantiateViewControllerWithIdentifier:@"OfferViewController"];
@@ -102,7 +118,7 @@
 //        ViewController *main = [[ViewController alloc] init];
 //        OfferInfoViewController *offerView = [[OfferInfoViewController alloc] init];
 //        [main presentViewController:offerView animated:YES completion:nil];
-    }
+//    }
     
     // Override point for customization after application launch.
     return YES;
@@ -124,10 +140,23 @@
 //    return TRUE;
 //}
 
-- (void)hello{
+- (void) hello{
+    [[OfferFactory getInstance] populate];
+    [[UserModel getInstance] fetch];
+//    [of populate];
+//    NSLog(@"all %@", of.objects);
+//    NSLog(@"obj %@", self.window.rootViewController);
+    return;
     UINavigationController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     MapControll *map = vc.viewControllers[0];
-    NSDictionary *offers = [self.net post:@"/offer/all_mobile" :[[NSDictionary alloc] init]];
+    
+    Networker *net = [Networker getInstance];
+    
+//    OfferFactory *of = [OfferFactory getInstance];
+//    [of populate];
+    
+//    return;
+    NSDictionary *offers = [net post:@"/offer/all_mobile" :[[NSDictionary alloc] init]];
 //    map.offers = offers;
     NSMutableArray *temp = [[NSMutableArray alloc] init];
     for (NSDictionary *offer in offers){
