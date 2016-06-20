@@ -32,6 +32,8 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[[self.annoView valueForKey:@"offerId"] stringValue], @"offer_id",  nil];
     
     [net post:@"/offer/toFavorites" : d];
+    
+    [self.star setImage:[UIImage imageNamed:@"fav_active.png"] forState:UIControlStateNormal];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -53,15 +55,27 @@
     if (!self.annoView){
         return;
     }
-//    return;
-//    self.offerName.text = [self.annoView valueForKey:@"offerName"];
+    self.offerName.text = [self.annoView valueForKey:@"offerName"];
     self.offerDesc.text = [self.annoView valueForKey:@"offerDesc"];
     
     UIImage *scaled = [self resizeImageTo :[self.annoView valueForKey:@"ico"] :CGSizeMake(16, 16)];
     [self.offerImage setImage:scaled];
-    self.comName.text = [[[self.annoView valueForKey:@"addresses"] objectAtIndex:0] valueForKey:@"name"];
     
-//    [self.endTime dateByAddingTimeInterval:60*60*24*3+8000];
+    NSDictionary *address = [[self.annoView valueForKey:@"addresses"] objectAtIndex:0];
+    self.comName.text = [address valueForKey:@"name"];
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    CLLocation *aLocation = [[CLLocation alloc] initWithLatitude:[[address valueForKey:@"lat"] floatValue] longitude:[[address valueForKey:@"lng"] floatValue]];
+    [geocoder reverseGeocodeLocation:aLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        if (placemarks.count > 0){
+            CLPlacemark *placemark =  [placemarks objectAtIndex:0];
+            NSString *address = [NSString stringWithFormat:@"%@ %@", [placemark thoroughfare], placemark.subThoroughfare];
+            self.offerAddress.text = address;
+        }
+    }];
+//    geoCoder.delegate = self;
+//    [geoCoder start];
+    
     NSDate *now = [NSDate date];
     NSDate *future = [now dateByAddingTimeInterval:(60*60*24+11467)];
     NSDateComponents *components = [[NSDateComponents alloc] init];
@@ -80,9 +94,6 @@
         return;
     }
     self.offerDesc.text = [self.offer valueForKey:@"compName"];
-    
-//    UIImage *scaled = [self resizeImageTo :[self.annoView valueForKey:@"ico"] :CGSizeMake(16, 16)];
-//    [self.offerImage setImage:scaled];
     self.comName.text = [[[self.offer valueForKey:@"addresses"] objectAtIndex:0] valueForKey:@"name"];
     
     //    [self.endTime dateByAddingTimeInterval:60*60*24*3+8000];

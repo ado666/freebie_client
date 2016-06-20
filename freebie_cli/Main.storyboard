@@ -353,7 +353,7 @@
                                     <constraint firstAttribute="width" constant="41" id="HnH-ao-tiS"/>
                                     <constraint firstAttribute="height" constant="38" id="cuE-mR-FA3"/>
                                 </constraints>
-                                <state key="normal" image="star.jpg"/>
+                                <state key="normal" image="fav_inactive.png"/>
                                 <connections>
                                     <action selector="toFavorite:" destination="vJ0-UL-enl" eventType="touchUpInside" id="b13-lg-5GX"/>
                                 </connections>
@@ -597,7 +597,7 @@
         <scene sceneID="E2p-pi-hS8">
             <objects>
                 <navigationController id="LLn-sA-bou" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AzL-4w-HPS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorTransitionMaskImage="pin.png" id="AzL-4w-HPS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1110,19 +1110,20 @@
         <image name="AppIcon76x76.png" width="76" height="76"/>
         <image name="bar_cat.png" width="48" height="48"/>
         <image name="bar_header.jpg" width="2000" height="400"/>
+        <image name="fav_inactive.png" width="912" height="868"/>
         <image name="food_cat.png" width="48" height="48"/>
         <image name="frd.jpg" width="260" height="194"/>
         <image name="images.jpg" width="275" height="183"/>
         <image name="kids_cat.png" width="48" height="48"/>
         <image name="logo.png" width="1024" height="1024"/>
         <image name="men_cat.png" width="48" height="48"/>
-        <image name="pin.png" width="297" height="234"/>
+        <image name="pin.png" width="520" height="838"/>
         <image name="star.jpg" width="204" height="204"/>
         <image name="trilane2.png" width="24" height="24"/>
         <image name="women_cat.png" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KYh-0U-s4d"/>
         <segue reference="eKE-ZX-ROE"/>
+        <segue reference="Qab-Sw-tqn"/>
     </inferredMetricsTieBreakers>
 </document>

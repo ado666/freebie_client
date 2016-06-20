@@ -37,7 +37,6 @@ static UserModel *instance = nil;
     Networker *net = [Networker getInstance];
     
     NSDictionary *data = [net get:@"/user/get" :nil];
-    
     self.categories = [NSArray arrayWithArray:[data valueForKey:@"categories"]];
     self.categories_config = [NSMutableDictionary dictionaryWithDictionary:[data valueForKey:@"categories_config"]];
     

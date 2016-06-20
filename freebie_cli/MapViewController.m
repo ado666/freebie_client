@@ -92,12 +92,8 @@
 - (void)addPinToMap: (CLLocationCoordinate2D) coords :(NSDictionary*) data
 {
     Networker *net = [Networker getInstance];
-    
-    //    NSString *title = [data valueForKey:@"title"];
     NSString *title = [[[data valueForKey:@"addresses"] objectAtIndex:0] valueForKey:@"name"];
-    NSString *desc = [data valueForKey:@"desc"];
     NSString *icon = [data valueForKey:@"icon"];
-//    NSLog(@"data %@", data);
     
     MapAnnotation *toAdd = [[MapAnnotation alloc] init];
     
@@ -132,7 +128,9 @@
     annotationView.canShowCallout = true;
     
     //    annotationView.image = [self imageResize:[UIImage imageNamed:@"pin2.png"] andResizeTo:CGSizeMake(32,32)];
-    NSString *imgurl = [NSString stringWithFormat:@"pin_%ld.png", (long)annotation.category];
+    //NSString *imgurl = [NSString stringWithFormat:@"pin_%ld.png", (long)annotation.category];
+    NSString *imgurl = @"pin.png";
+
 //    if (annotation.category == 1){
 //        imgurl = @"pin_food.png";
 //    }else if (annotation.category == 2){
@@ -144,7 +142,8 @@
 //    }else if (annotation.category == 7){
 //        imgurl = @"pin_kids.png";
 //    }
-    annotationView.image = [UIImage imageNamed:imgurl];
+    annotationView.image = [utils imageResize:[UIImage imageNamed:imgurl] To:CGSizeMake(20,32)];
+    //[UIImage imageNamed:imgurl];
     
     UIImageView *imageView = [[UIImageView alloc]
                               initWithImage:

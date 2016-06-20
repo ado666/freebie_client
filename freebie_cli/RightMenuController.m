@@ -30,6 +30,7 @@
 }
 
 - (void) categoriesChanged {
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,6 +65,7 @@
 //    NSDictionary *a = [[NSDictionary alloc] init];
 //    [a valueForKey:@"asd"];
 //    NSLog(@"asd %@ %@", [[cellData valueForKey:@"id"] stringValue], [[user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]] valueForKey:@"value"]);
+    //NSLog(@"cell %@", user.categories_config);
     if ([user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]]){
         if ([[user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]] integerValue] == 1){
             [cell.categorySwitch setOn:YES];
