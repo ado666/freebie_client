@@ -25,12 +25,11 @@
 }
 
 - (void) ttt {
-    NSLog(@"asd");
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 //
-    NSLog(@"asd %@", segue.identifier);
+
     // Set the title of navigation bar by using the menu items
 //    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 //    UINavigationController *destViewController = (UINavigationController*)segue.destinationViewController;

@@ -29,7 +29,6 @@
     Networker *net = [Networker getInstance];
 //    NSLog(@"%ld ddd", (long)self.compId);
     NSString *aaa = [[NSNumber numberWithInteger:(NSInteger)self.compId] stringValue];
-    NSLog(@"asd %@", aaa);
     [net post:@"/user/favorite_delete" : [NSDictionary dictionaryWithObjectsAndKeys:aaa, @"company_id", nil]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"favoritesUpdated" object:nil];

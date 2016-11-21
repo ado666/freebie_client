@@ -10,7 +10,10 @@
 #import <MapKit/MapKit.h>
 
 @interface MapViewController : UIViewController <MKMapViewDelegate>
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
+@property (weak, nonatomic) IBOutlet UIButton *menu_buttom;
+@property (weak, nonatomic) IBOutlet UIButton *filter_button;
+@property (nonatomic, weak) IBOutlet MKMapView *mapView;
 @property (nonatomic) BOOL inited;
 
 - (void) userLocationChanged;

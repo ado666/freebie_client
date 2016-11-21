@@ -11,7 +11,6 @@
 #import "ViewController.h"
 #import "OfferInfoViewController.h"
 #import "Networker.h"
-#import "MapControll.h"
 
 #import "OfferFactory.h"
 #import "UserModel.h"
@@ -40,7 +39,7 @@ static NSData *token;
     if (token){
         return token;//[[NSString alloc] initWithData:token encoding:NSUTF8StringEncoding];
     }
-    return @"";
+    return [[NSData alloc] init];
 }
 
 
@@ -54,9 +53,9 @@ static NSData *token;
     NSLog(@"Failed to get token, error: %@", error);
 }
 
-- (BOOL)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)launchOptions {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)launchOptions {
 //    NSLog(@"notif %@", launchOptions);
-    return YES;
+    //return YES;
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
@@ -143,67 +142,6 @@ static NSData *token;
 - (void) hello{
     [[OfferFactory getInstance] populate];
     [[UserModel getInstance] fetch];
-//    [of populate];
-//    NSLog(@"all %@", of.objects);
-//    NSLog(@"obj %@", self.window.rootViewController);
-    return;
-    UINavigationController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-    MapControll *map = vc.viewControllers[0];
-    
-    Networker *net = [Networker getInstance];
-    
-//    OfferFactory *of = [OfferFactory getInstance];
-//    [of populate];
-    
-//    return;
-    NSDictionary *offers = [net post:@"/offer/all_mobile" :[[NSDictionary alloc] init]];
-//    map.offers = offers;
-    NSMutableArray *temp = [[NSMutableArray alloc] init];
-    for (NSDictionary *offer in offers){
-        [temp addObject:offer];
-//        NSArray *addresses = [offer valueForKey:@"addresses"];
-//        for (NSDictionary *address in addresses){
-//            [temp addObject:address];
-//            double lat = [[address valueForKey:@"lat"] doubleValue];
-//            double lng = [[address valueForKey:@"lng"] doubleValue];
-//            
-//            [map addPinToMap:CLLocationCoordinate2DMake(lat, lng) : offer];
-//        }
-    }
-    [map setOffers:temp];
-    
-    return;
-//    UINavigationController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-//    [self.viewController addPinToMap:CLLocationCoordinate2D(55,37)];
-//    MapControll *map = vc.viewControllers[0];
-//    [map addPinToMap:CLLocationCoordinate2DMake(55, 37)];
-//    NSLog(@"asd %@", array);
-//    for (NSDictionary *item in array){
-////        NSLog(@"asddsa %@", [array objectAtIndex:item]);
-//        double lat = [[item valueForKey:@"lat"] doubleValue];
-//        double lng = [[item valueForKey:@"lng"] doubleValue];
-//        NSString *name = [item valueForKey:@"name"];
-////
-//        [map addPinToMap:CLLocationCoordinate2DMake(lat, lng) : name];
-//    };
-    
-//    NSLog(@"asd %@", array);
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://91.225.238.186/user/hello"]];
-//    
-//    NSString *stringData = [NSString stringWithFormat:@"uuid=%@;token=%@", [AppDelegate identifierForVendor], self.token];
-//    NSData *requestBodyData = [stringData dataUsingEncoding:NSUTF8StringEncoding];
-//    
-//    request.HTTPMethod = @"POST";
-//    request.HTTPBody = requestBodyData;
-//    
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request
-//                                         returningResponse:&response
-//                                                     error:&error];
-//    
-//    NSDictionary *parsed = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-//    self.user_id = [parsed objectForKey:@"user"];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

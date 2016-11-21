@@ -34,6 +34,11 @@
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
+    //
+        UIBarButtonItem *rightRevealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter.png"]
+                                                                             style:UIBarButtonItemStylePlain target:revealController action:@selector(rightRevealToggle:)];
+        self.navigationItem.rightBarButtonItem = rightRevealButtonItem;
+    
     NSDictionary *all = [OfferFactory getInstance].objects;
     
     NSMutableArray *tableData = [[NSMutableArray alloc] init];
@@ -92,6 +97,8 @@
         
         OfferDetails *target = segue.destinationViewController;
         [target setNewOffer:data];
+        
+        
 //        NSLog(@"asd %@", data);
     }
 }

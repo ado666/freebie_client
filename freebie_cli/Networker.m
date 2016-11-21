@@ -24,7 +24,8 @@ static Networker *instance = nil;
 - (id) init {
     self = [super init];
     
-    self.url = @"http://freebieapp.ru";
+    //self.url = @"http://freebieapp.ru";
+    self.url = @"http://91.225.238.186";
     
     return self;
 }
@@ -53,7 +54,6 @@ static Networker *instance = nil;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
-    
     [request setValue:@"application/x-www-form-urlencoded;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     [request setHTTPBody:[extraString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -84,13 +84,25 @@ static Networker *instance = nil;
     [request setValue:@"application/x-www-form-urlencoded;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     [request setHTTPBody:[extraString dataUsingEncoding:NSUTF8StringEncoding]];
-    
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
                                                          options:kNilOptions
-                                                           error:&error];
+                                                        error:&error];
     return json;
+    
+//    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//    
+//    [[session dataTaskWithRequest:request
+//                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//                    
+//                    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
+//                                            options:kNilOptions
+//                                            error:&error];
+//                    NSLog(@"json %@", json);
+//                    
+//                }] resume];
+//    return [[NSDictionary alloc] init];
 }
 
 - (UIImage*) getImage: (NSString *)fileURL :(NSString *)alt {

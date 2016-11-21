@@ -7,17 +7,28 @@
 //
 
 #import "MapViewController.h"
+
 #import "SWRevealViewController.h"
 #import "OfferFactory.h"
 #import "MapAnnotatin.h"
 #import "Networker.h"
-#import "ViewController.h"
 #import "testtwoFrontViewController.h"
 #import "UserModel.h"
 #import "Utils.h"
+#import "MapAnno.h"
+#import "MapPoint.h"
+
+#import "CCHMapClusterController.h"
+#import "CCHMapClusterAnnotation.h"
+
+#import "OfferDetails.h"
+#import "OfferDetailsList.h"
+
+#import "Utils.h"
+#import "Networker.h"
 
 @interface MapViewController ()
-
+@property (strong, nonatomic) CCHMapClusterController *mapClusterController;
 @end
 
 @implementation MapViewController
@@ -29,8 +40,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLocationChanged) name:@"userLocationChanged" object:nil];
     
-    self.mapView.showsUserLocation=YES;
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation=YES;
     [self.mapView setUserTrackingMode:MKUserTrackingModeNone animated:NO];
     
     MKCoordinateRegion center = MKCoordinateRegionMake(CLLocationCoordinate2DMake(user.location.coordinate.latitude, user.location.coordinate.longitude), MKCoordinateSpanMake(0.25, 0.25));
@@ -40,21 +51,29 @@
     [revealController panGestureRecognizer];
     [revealController tapGestureRecognizer];
     
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
-                                                                         style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
-    self.navigationItem.leftBarButtonItem = revealButtonItem;
+//    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
+//                                                                         style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
+//    self.navigationItem.leftBarButtonItem = revealButtonItem;
+//    
+//    UIBarButtonItem *rightRevealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter.png"]
+//                                                                         style:UIBarButtonItemStylePlain target:revealController action:@selector(rightRevealToggle:)];
+//    self.navigationItem.rightBarButtonItem = rightRevealButtonItem;
     
-    UIBarButtonItem *rightRevealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter.png"]
-                                                                         style:UIBarButtonItemStylePlain target:revealController action:@selector(rightRevealToggle:)];
-    self.navigationItem.rightBarButtonItem = rightRevealButtonItem;
+    [self.menu_buttom addTarget:revealController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchDown];
+    [self.filter_button addTarget:revealController action:@selector(rightRevealToggle:) forControlEvents:UIControlEventTouchDown];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(offersChanged) name:@"offerChanged" object:nil];
+    
+    self.mapClusterController = [[CCHMapClusterController alloc] initWithMapView:self.mapView];
+    self.mapClusterController.marginFactor = 1.0;
+    self.mapClusterController.cellSize = 50.0;
+    self.mapClusterController.debuggingEnabled = NO;
+    self.mapClusterController.delegate = self;
     
     [self offersChanged];
 }
 
 - (void) userLocationChanged {
-    
     if (self.inited){
         return;
     }else{
@@ -71,7 +90,8 @@
     UserModel *user = [UserModel getInstance];
     
     [self.mapView removeAnnotations:self.mapView.annotations];
-//    NSLog(@"ssss %@", user.categories_config);
+    
+    NSMutableArray *annos = [[NSMutableArray alloc] init];
     for (NSString* offerId in of.objects){
         NSDictionary *offer = [of.objects valueForKey:offerId];
         
@@ -81,81 +101,52 @@
                 double lat = [[address valueForKey:@"lat"] doubleValue];
                 double lng = [[address valueForKey:@"lng"] doubleValue];
                 
-                [self addPinToMap:CLLocationCoordinate2DMake(lat, lng) : offer];
+                [self addPinToMap:CLLocationCoordinate2DMake(lat, lng) : offer : address];
+                [annos addObject:[self addPinToMap:CLLocationCoordinate2DMake(lat, lng) : offer : address]];
+                
             }
         }
         
     }
-//    [self setOffers:temp];
+    [self.mapClusterController removeAnnotations:self.mapClusterController.annotations.allObjects withCompletionHandler:NULL];
+    for (id<MKOverlay> overlay in self.mapView.overlays) {
+        [self.mapView removeOverlay:overlay];
+    }
+    [self.mapClusterController addAnnotations:annos withCompletionHandler:NULL];
 }
 
-- (void)addPinToMap: (CLLocationCoordinate2D) coords :(NSDictionary*) data
+- (MKPointAnnotation*)addPinToMap: (CLLocationCoordinate2D) coords :(NSDictionary*) data :(NSDictionary*) address
 {
     Networker *net = [Networker getInstance];
-    NSString *title = [[[data valueForKey:@"addresses"] objectAtIndex:0] valueForKey:@"name"];
-    NSString *icon = [data valueForKey:@"icon"];
+    MapPoint *point = [[MapPoint alloc] init];
     
-    MapAnnotation *toAdd = [[MapAnnotation alloc] init];
+//    @property (nonatomic, copy) NSArray                     * addresses;
+//    @property (nonatomic, copy) NSDictionary                * address;
+//    @property (nonatomic, copy) NSString                    * desc;
+//    @property (nonatomic)       NSInteger                   offerId;
+//    @property (nonatomic, copy) NSString                    * offerName;
+//    @property (nonatomic, copy) NSString                    * offerDesc;
+//    
+//    @property (nonatomic, copy) NSString                    * title;
+//    @property (nonatomic, copy) NSString                    * subtitle;
+//    
+//    @property (nonatomic, assign) CLLocationCoordinate2D    coordinate;
+//    @property (nonatomic, strong) NSString                  * ico;
+//    NSLog(@"asd %@", data);
+    point.coordinate = coords;
+    point.title = [data valueForKey:@"name"];
+//point.ico = [net getImage:[data valueForKey:@"icon"] :@"/img/blank.png"];
+    point.ico = [data valueForKey:@"icon"];
     
-    toAdd.coordinate = coords;
-    toAdd.addresses = [data valueForKey:@"addresses"];
-    toAdd.title = title;
-    toAdd.offerId = [[data valueForKey:@"id"] integerValue];
-    toAdd.offerName = [data valueForKey:@"name"];
-    toAdd.offerDesc = [data valueForKey:@"desc"];
-    toAdd.category = [[[data valueForKey:@"category"] valueForKey:@"id"] integerValue];
-    if (!icon){
-        icon = @"empty_logo";
-    }
-    NSString *target = [@"http://freebieapp.ru/img/offers/" stringByAppendingString:icon];
-    NSString *target1 = [target stringByAppendingString:@".png"];
-    NSString *alt = @"http://freebieapp.ru/img/offers/empty_logo.png";
+    point.category = [[[data valueForKey:@"category"] valueForKey:@"id"] integerValue];
     
-    toAdd.ico = [net getImage:target1 : alt];
+    point.offerId = [[data valueForKey:@"id"] integerValue];
+    point.offerName = [data valueForKey:@"name"];
+    point.offerDesc = [data valueForKey:@"desc"];
+    point.address = address;
+    point.companyId = [[data valueForKey:@"compId"] integerValue];
     
-    [self.mapView addAnnotation:toAdd];
-}
-
-- (MKAnnotationView *)mapView:(MKMapView *)mapview viewForAnnotation:(MapAnnotation*)annotation
-{
-    Utils *utils = [Utils getInstance];
-    if ([annotation isKindOfClass:[MKUserLocation class]]){
-        return nil;
-    }
-    static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
-    
-    MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationIdentifier];
-    annotationView.canShowCallout = true;
-    
-    //    annotationView.image = [self imageResize:[UIImage imageNamed:@"pin2.png"] andResizeTo:CGSizeMake(32,32)];
-    //NSString *imgurl = [NSString stringWithFormat:@"pin_%ld.png", (long)annotation.category];
-    NSString *imgurl = @"pin.png";
-
-//    if (annotation.category == 1){
-//        imgurl = @"pin_food.png";
-//    }else if (annotation.category == 2){
-//        imgurl = @"pin_bar.png";
-//    }else if (annotation.category == 5){
-//        imgurl = @"pin_men.png";
-//    }else if (annotation.category == 6){
-//        imgurl = @"pin_women.png";
-//    }else if (annotation.category == 7){
-//        imgurl = @"pin_kids.png";
-//    }
-    annotationView.image = [utils imageResize:[UIImage imageNamed:imgurl] To:CGSizeMake(20,32)];
-    //[UIImage imageNamed:imgurl];
-    
-    UIImageView *imageView = [[UIImageView alloc]
-                              initWithImage:
-                              [utils imageResize:annotation.ico To:CGSizeMake(60,50)]
-                              ];
-    
-    UIButton *info = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    
-    annotationView.rightCalloutAccessoryView = info;
-    annotationView.leftCalloutAccessoryView = imageView;
-    
-    return annotationView;
+    return point;
 }
 
 
@@ -164,29 +155,145 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark - MapViewDelegate
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(CCHMapClusterAnnotation *)annotation {
+    MKAnnotationView *annotationView;
+    
+    Utils *utils = [Utils getInstance];
+    Networker *net = [Networker getInstance];
+    
+    if ([annotation isKindOfClass:CCHMapClusterAnnotation.class]) {
+        static NSString *identifier = @"clusterAnnotation";
+        
+        MapAnno *clusterAnnotationView = (MapAnno *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (clusterAnnotationView) {
+            clusterAnnotationView.annotation = annotation;
+        } else {
+            clusterAnnotationView = [[MapAnno alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            clusterAnnotationView.canShowCallout = YES;
+        }
+        
+        clusterAnnotationView.uniqLocation = annotation.isUniqueLocation;
+        clusterAnnotationView.cluster = annotation.isCluster;
+        clusterAnnotationView.count = annotation.annotations.count;
+        
+        if (annotation.annotations.count == 1){
+            NSArray *annotations = [annotation.annotations.allObjects subarrayWithRange:NSMakeRange(0, 1)];
+            MapPoint *annotatonPin = [annotations objectAtIndex:0];
+            clusterAnnotationView.category = annotatonPin.category;
+            clusterAnnotationView.ico = annotatonPin.ico;
+            clusterAnnotationView.offerName = annotatonPin.offerName;
+            clusterAnnotationView.offerDesc = annotatonPin.offerDesc;
+            clusterAnnotationView.offerId = annotatonPin.offerId;
+            clusterAnnotationView.address = annotatonPin.address;
+            clusterAnnotationView.companyId = annotatonPin.companyId;
+            
+            NSString *alt = @"http://freebieapp.ru/img/offers/empty_logo.png";
+            NSString *target = [NSString stringWithFormat:@"http://freebieapp.ru/img/offers/%@.png", annotatonPin.ico];
+            
+            UIImage *ico = [net getImage:target : alt];
+            UIImageView *imageView = [[UIImageView alloc]
+                                      initWithImage:
+                                      [utils imageResize:ico To:CGSizeMake(16.0, 16.0)]
+                                      ];
+            clusterAnnotationView.leftCalloutAccessoryView = imageView;
+        }else{
+            UIView *view = [[UIView alloc] init];
+            UILabel *yourLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
+            [yourLabel setText:@"Подробнее..."];
+            [yourLabel setTextColor:[UIColor blackColor]];
+            [yourLabel setBackgroundColor:[UIColor clearColor]];
+            [yourLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 14.0f]];
+            [view addSubview:yourLabel];
+            clusterAnnotationView.annotations = annotation.annotations;
+        }
+        
+        
+        
+        clusterAnnotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        annotationView = clusterAnnotationView;
+    }
+    
+    return annotationView;
+}
+
+- (void) mapView:(MKMapView *)mapView annotationView:(MapAnno *)view calloutAccessoryControlTapped:(UIControl *)control {
+    if (view.isCluster){
+        [self performSegueWithIdentifier:@"OfferDetailsListSegue" sender:view];
+    }else{
+        [self performSegueWithIdentifier:@"OfferDetailsSegue" sender:view];
+    }
+    
+    
+}
+
+#pragma mark reuse
+- (void)mapClusterController:(CCHMapClusterController *)mapClusterController willReuseMapClusterAnnotation:(CCHMapClusterAnnotation *)mapClusterAnnotation
+{
+    
+    if (mapClusterAnnotation.annotations.count == 1){
+        
+    }else{
+        MapAnno *clusterAnnotationView = (MapAnno *)[self.mapView viewForAnnotation:mapClusterAnnotation];
+        clusterAnnotationView.uniqLocation = mapClusterAnnotation.isUniqueLocation;
+        clusterAnnotationView.cluster = mapClusterAnnotation.isCluster;
+        clusterAnnotationView.count = mapClusterAnnotation.annotations.count;
+
+    }
+}
+
+
+#pragma mark - titles
+- (NSString *)mapClusterController:(CCHMapClusterController *)mapClusterController titleForMapClusterAnnotation:(CCHMapClusterAnnotation *)mapClusterAnnotation
+{
+    NSUInteger numAnnotations = mapClusterAnnotation.annotations.count;
+    NSString *unit;
+    
+    if (numAnnotations == 1){
+        NSArray *annotations = [mapClusterAnnotation.annotations.allObjects subarrayWithRange:NSMakeRange(0, numAnnotations)];
+        return [annotations[0] valueForKey:@"title"];
+    }else if (numAnnotations >= 2 && numAnnotations < 5){
+        unit = @"Акции";
+    }else{
+        unit = @"Акций";
+    }
+    
+    return [NSString stringWithFormat:@"%tu %@", numAnnotations, unit];
+}
+
+- (NSString *)mapClusterController:(CCHMapClusterController *)mapClusterController subtitleForMapClusterAnnotation:(CCHMapClusterAnnotation *)mapClusterAnnotation
+{
+    NSUInteger numAnnotations = MIN(mapClusterAnnotation.annotations.count, 5);
+    if (numAnnotations == 1){
+        return @"";
+    }
+    NSArray *annotations = [mapClusterAnnotation.annotations.allObjects subarrayWithRange:NSMakeRange(0, numAnnotations)];
+    NSArray *titles = [annotations valueForKey:@"title"];
+    return [titles componentsJoinedByString:@", "];
+}
+
+
+#pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"OfferDetailsSegue"])
     {
-        MKAnnotationView *annotationView = sender;
-        [segue.destinationViewController setAnnotation:annotationView.annotation];
+        OfferDetails *target = segue.destinationViewController;
+        MapAnno *annotationView = sender;
+        
+        [target setAnnotation:annotationView];
+    }
+    if ([segue.identifier isEqualToString:@"OfferDetailsListSegue"])
+    {
+        OfferDetailsList *target = segue.destinationViewController;
+        MapAnno *annotationView = sender;
+        
+        [target setAnnotations: annotationView.annotations];
+//        MKAnnotationView *annotationView = sender;
+//        [segue.destinationViewController setAnnotations:annotationView];
     }
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    [self performSegueWithIdentifier:@"OfferDetailsSegue" sender:view];
-    
-}
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

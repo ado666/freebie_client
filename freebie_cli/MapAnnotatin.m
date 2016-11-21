@@ -11,6 +11,7 @@
 @implementation MapAnnotation
 
 @synthesize addresses;
+@synthesize address;
 @synthesize desc;
 @synthesize offerId;
 @synthesize offerName;
