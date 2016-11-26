@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImage;
 @property (weak, nonatomic) IBOutlet UILabel *categoryName;
 @property (weak, nonatomic) IBOutlet UISwitch *categorySwitch;
+@property (nonatomic) BOOL isOn;
 
 @end

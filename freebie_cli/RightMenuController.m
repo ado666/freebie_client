@@ -41,12 +41,10 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
     return [self.tableData count];
 }
 
@@ -62,15 +60,13 @@
     [cell.categoryImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"category_%@.png", [cellData valueForKey:@"id"]]]];
     cell.categoryId = [cellData valueForKey:@"id"];
     
-//    NSDictionary *a = [[NSDictionary alloc] init];
-//    [a valueForKey:@"asd"];
-//    NSLog(@"asd %@ %@", [[cellData valueForKey:@"id"] stringValue], [[user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]] valueForKey:@"value"]);
-    //NSLog(@"cell %@", user.categories_config);
     if ([user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]]){
         if ([[user.categories_config valueForKey:[[cellData valueForKey:@"id"] stringValue]] integerValue] == 1){
-            [cell.categorySwitch setOn:YES];
+            cell.isOn = true;
+            cell.categoryImage.alpha = 1.0f;
         }else{
-            [cell.categorySwitch setOn:NO];
+            cell.isOn = false;
+            cell.categoryImage.alpha = 0.25f;
         }
     }
     
